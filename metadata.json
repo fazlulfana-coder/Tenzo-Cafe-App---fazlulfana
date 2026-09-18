@@ -1,0 +1,8 @@
+{
+  "name": "Tenzo Cafe and Bakers",
+  "description": "Bakery management and ordering web application for Tenzo Cafe and Bakers with customer ordering in LKR, live cart, order tracking, and a comprehensive admin management dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "/",
+  "name": "Tenzo Cafe & Bakers",
+  "short_name": "Tenzo Cafe",
+  "description": "Artisanal bakery and cafe ordering in Thihariya. Fresh breads, short eats, gateaux, pastries, and instant WhatsApp ordering.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF7F2",
+  "theme_color": "#b45309",
+  "categories": [
+    "food",
+    "shopping",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Menu & Products",
+      "short_name": "Menu",
+      "description": "Explore fresh bakery items and delicious treats",
+      "url": "/#menu",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Cart & Checkout",
+      "short_name": "Cart",
+      "description": "View items in your cart and order online",
+      "url": "/#cart",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
