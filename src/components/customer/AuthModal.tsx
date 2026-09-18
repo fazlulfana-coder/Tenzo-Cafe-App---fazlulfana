@@ -40,6 +40,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   }, [isOpen, defaultTab]);
 
   // Admin states
+  const [adminUsername, setAdminUsername] = useState('tenzo');
   const [adminPassword, setAdminPassword] = useState('');
   const [adminError, setAdminError] = useState<string | null>(null);
 
@@ -53,19 +54,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const handleAdminSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setAdminError(null);
-    const success = adminLogin(adminPassword.trim());
+    const success = adminLogin(adminPassword.trim(), adminUsername.trim());
     if (success) {
       onClose();
       setActiveTab('admin');
     } else {
-      setAdminError('Invalid password. Default demo password is: tenzo123');
+      setAdminError('Invalid credentials. Use Username: tenzo | Password: tenzo_1234');
     }
   };
 
   const handleAutoFillAdmin = () => {
-    setAdminPassword('tenzo123');
+    setAdminUsername('tenzo');
+    setAdminPassword('tenzo_1234');
     setAdminError(null);
-    adminLogin('tenzo123');
+    adminLogin('tenzo_1234', 'tenzo');
     setTimeout(() => {
       onClose();
       setActiveTab('admin');
@@ -157,7 +159,25 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
               <div>
                 <label className="block text-xs font-semibold text-[#2D241E] mb-1">
-                  Admin Passcode
+                  Username
+                </label>
+                <div className="relative">
+                  <User className="w-4 h-4 text-[#9A8C73] absolute left-3.5 top-3" />
+                  <input
+                    type="text"
+                    id="input-admin-username"
+                    required
+                    value={adminUsername}
+                    onChange={(e) => setAdminUsername(e.target.value)}
+                    placeholder="Enter admin username (tenzo)"
+                    className="w-full pl-10 pr-3 py-2.5 rounded-xl text-xs sm:text-sm border border-[#E5E1D8] bg-[#FAF7F2] focus:bg-white focus:outline-none focus:border-[#8B5E3C]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-[#2D241E] mb-1">
+                  Password
                 </label>
                 <div className="relative">
                   <Lock className="w-4 h-4 text-[#9A8C73] absolute left-3.5 top-3" />
@@ -167,7 +187,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     required
                     value={adminPassword}
                     onChange={(e) => setAdminPassword(e.target.value)}
-                    placeholder="Enter admin password (e.g. tenzo123)"
+                    placeholder="Enter password (tenzo_1234)"
                     className="w-full pl-10 pr-3 py-2.5 rounded-xl text-xs sm:text-sm border border-[#E5E1D8] bg-[#FAF7F2] focus:bg-white focus:outline-none focus:border-[#8B5E3C]"
                   />
                 </div>
@@ -176,17 +196,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 )}
               </div>
 
-              {/* Quick Demo Button */}
-              <div className="p-3 bg-[#FAF7F2] rounded-xl border border-[#E5E1D8] text-xs flex items-center justify-between">
-                <div className="text-[#2D241E] font-medium">
-                  Default Demo Key: <code className="bg-white px-1.5 py-0.5 rounded border border-[#E5E1D8] font-mono font-bold text-[#8B5E3C]">tenzo123</code>
+              {/* Quick Demo Credentials Info */}
+              <div className="p-3 bg-[#FAF7F2] rounded-xl border border-[#E5E1D8] text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                <div className="text-[#2D241E] font-medium space-y-0.5">
+                  <div>User: <code className="bg-white px-1.5 py-0.5 rounded border border-[#E5E1D8] font-mono font-bold text-[#8B5E3C]">tenzo</code></div>
+                  <div>Pass: <code className="bg-white px-1.5 py-0.5 rounded border border-[#E5E1D8] font-mono font-bold text-[#8B5E3C]">tenzo_1234</code></div>
                 </div>
                 <button
                   type="button"
                   onClick={handleAutoFillAdmin}
-                  className="px-2.5 py-1 bg-[#2D241E] hover:bg-[#8B5E3C] text-[#FAF7F2] rounded-lg text-[11px] font-bold shadow-2xs cursor-pointer transition-colors"
+                  className="px-3 py-1.5 bg-[#2D241E] hover:bg-[#8B5E3C] text-[#FAF7F2] rounded-lg text-[11px] font-bold shadow-2xs cursor-pointer transition-colors"
                 >
-                  1-Click Fill
+                  1-Click Auto Fill
                 </button>
               </div>
 

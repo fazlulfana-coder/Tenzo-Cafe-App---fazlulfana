@@ -3,7 +3,7 @@ import { useBakery } from '../../context/BakeryContext';
 import { 
   Home, 
   UtensilsCrossed, 
-  MapPin, 
+  LayoutGrid, 
   ShoppingBag, 
   MessageCircle, 
   Sparkles 
@@ -51,17 +51,17 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({
           <span className="text-[10px] font-semibold mt-0.5">Menu</span>
         </button>
 
-        {/* Branches */}
+        {/* Categories */}
         <button
-          onClick={() => setActiveTab('branches')}
+          onClick={() => setActiveTab('categories')}
           className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-colors cursor-pointer min-w-[56px] ${
-            activeTab === 'branches'
+            activeTab === 'categories'
               ? 'text-[#D4A373]'
               : 'text-[#C9C4B9] hover:text-white'
           }`}
         >
-          <MapPin className="w-5 h-5" />
-          <span className="text-[10px] font-semibold mt-0.5">Branches</span>
+          <LayoutGrid className="w-5 h-5" />
+          <span className="text-[10px] font-semibold mt-0.5">Categories</span>
         </button>
 
         {/* Specials */}

@@ -113,6 +113,7 @@ export interface BakerySettings {
   announcement: string;
   isOrderingEnabled: boolean;
   currency?: string;
+  adminUsername?: string;
   adminPassword?: string;
 }
 

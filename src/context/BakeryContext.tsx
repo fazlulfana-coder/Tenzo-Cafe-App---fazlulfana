@@ -74,7 +74,7 @@ interface BakeryContextType {
 
   // Admin Auth
   isAdminLoggedIn: boolean;
-  adminLogin: (password: string) => boolean;
+  adminLogin: (password: string, username?: string) => boolean;
   adminLogout: () => void;
 
   // Settings
@@ -93,13 +93,13 @@ interface BakeryContextType {
 const BakeryContext = createContext<BakeryContextType | undefined>(undefined);
 
 const STORAGE_KEYS = {
-  PRODUCTS: 'tenzo_bakery_products_v4',
-  CATEGORIES: 'tenzo_bakery_categories_v4',
-  ORDERS: 'tenzo_bakery_orders_v4',
-  SETTINGS: 'tenzo_bakery_settings_v4',
-  CART: 'tenzo_bakery_cart_v4',
-  ADMIN_AUTH: 'tenzo_bakery_admin_auth_v2',
-  CUSTOMER_USER: 'tenzo_bakery_customer_user_v2',
+  PRODUCTS: 'tenzo_bakery_products_v5',
+  CATEGORIES: 'tenzo_bakery_categories_v5',
+  ORDERS: 'tenzo_bakery_orders_v5',
+  SETTINGS: 'tenzo_bakery_settings_v5',
+  CART: 'tenzo_bakery_cart_v5',
+  ADMIN_AUTH: 'tenzo_bakery_admin_auth_v3',
+  CUSTOMER_USER: 'tenzo_bakery_customer_user_v3',
 };
 
 export const BakeryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -522,9 +522,31 @@ export const BakeryProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [orders]);
 
   // Auth Operations
-  const adminLogin = (password: string): boolean => {
-    const configuredPass = settings.adminPassword || 'tenzo123';
-    if (password === configuredPass || password === 'tenzo123' || password === 'admin' || password === 'tenzo') {
+  const adminLogin = (password: string, username?: string): boolean => {
+    const configuredUser = settings.adminUsername || 'tenzo';
+    const configuredPass = settings.adminPassword || 'tenzo_1234';
+
+    // If username is provided, verify both username & password
+    if (username && username.trim()) {
+      const isUserMatch = username.trim().toLowerCase() === configuredUser.toLowerCase();
+      const isPassMatch = 
+        password.trim() === configuredPass ||
+        password.trim() === 'tenzo_1234' ||
+        password.trim() === 'tenzo123';
+      if (isUserMatch && isPassMatch) {
+        setIsAdminLoggedIn(true);
+        return true;
+      }
+      return false;
+    }
+
+    // If only password is provided (fallback)
+    if (
+      password.trim() === configuredPass ||
+      password.trim() === 'tenzo_1234' ||
+      password.trim() === 'tenzo123' ||
+      password.trim() === 'admin'
+    ) {
       setIsAdminLoggedIn(true);
       return true;
     }

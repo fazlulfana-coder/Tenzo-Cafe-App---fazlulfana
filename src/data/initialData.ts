@@ -873,5 +873,6 @@ export const INITIAL_SETTINGS: BakerySettings = {
   announcement: 'Fresh batch of Thatty Bread, Maalu Buns, Kimbula Buns & Butter Cakes out of the oven across Thihariya, Ellalamulla & Kalleliya branches! Free delivery on orders over Rs. 2,500.',
   isOrderingEnabled: true,
   currency: 'LKR',
-  adminPassword: 'tenzo123',
+  adminUsername: 'tenzo',
+  adminPassword: 'tenzo_1234',
 };

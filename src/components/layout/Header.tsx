@@ -13,7 +13,8 @@ import {
   Search,
   UserCheck,
   Receipt,
-  MessageCircle
+  MessageCircle,
+  LayoutGrid
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -29,6 +30,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth, onOpenMyOrders, onOp
     cartItemCount, 
     setIsCartOpen, 
     isAdminLoggedIn,
+    orders,
     currentCustomer,
     settings,
     searchQuery,
@@ -144,6 +146,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth, onOpenMyOrders, onOp
               Bakery Menu
             </button>
             <button
+              id="nav-categories"
+              onClick={() => handleNavClick('categories')}
+              className={`transition-all pb-1 flex items-center gap-1.5 ${
+                activeTab === 'categories' 
+                  ? 'border-b-2 border-[#2D241E] text-[#2D241E] font-bold' 
+                  : 'text-[#7A6C5D] hover:text-[#2D241E] border-b-2 border-transparent'
+              }`}
+            >
+              <LayoutGrid className="w-3.5 h-3.5 text-[#8B5E3C]" />
+              Categories
+            </button>
+            <button
               id="nav-offers"
               onClick={() => handleNavClick('offers')}
               className={`transition-all pb-1 flex items-center gap-1.5 ${
@@ -156,26 +170,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth, onOpenMyOrders, onOp
               Today's Specials
             </button>
             <button
-              id="nav-branches"
-              onClick={() => handleNavClick('branches')}
-              className={`transition-all pb-1 flex items-center gap-1.5 ${
-                activeTab === 'branches' 
-                  ? 'border-b-2 border-[#2D241E] text-[#2D241E] font-bold' 
-                  : 'text-[#7A6C5D] hover:text-[#2D241E] border-b-2 border-transparent'
-              }`}
-            >
-              <MapPin className="w-3.5 h-3.5 text-[#8B5E3C]" />
-              Our Branches
-            </button>
-            <button
-              id="nav-my-orders"
-              onClick={onOpenMyOrders}
-              className="text-[#7A6C5D] hover:text-[#2D241E] transition-colors pb-1 border-b-2 border-transparent flex items-center gap-1.5"
-            >
-              <Receipt className="w-4 h-4 text-[#9A8C73]" />
-              My Orders
-            </button>
-            <button
               id="nav-contact"
               onClick={() => handleNavClick('contact')}
               className={`transition-all pb-1 ${
@@ -186,6 +180,27 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth, onOpenMyOrders, onOp
             >
               Contact Us
             </button>
+
+            {/* Admin-only Orders: client cannot view this */}
+            {isAdminLoggedIn && (
+              <button
+                id="nav-admin-orders"
+                onClick={() => handleNavClick('admin')}
+                className={`transition-all pb-1 flex items-center gap-1.5 ${
+                  activeTab === 'admin'
+                    ? 'border-b-2 border-[#2D241E] text-[#2D241E] font-bold'
+                    : 'text-[#8B5E3C] hover:text-[#2D241E] border-b-2 border-transparent font-semibold'
+                }`}
+              >
+                <Receipt className="w-3.5 h-3.5 text-[#8B5E3C]" />
+                <span>Orders</span>
+                {orders.length > 0 && (
+                  <span className="px-1.5 py-0.5 rounded-full bg-[#2D241E] text-white text-[10px] font-mono font-bold">
+                    {orders.length}
+                  </span>
+                )}
+              </button>
+            )}
           </nav>
 
           {/* Action Buttons: WhatsApp, Search, Cart, Account, Admin Mode Toggle */}
@@ -354,25 +369,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth, onOpenMyOrders, onOp
               🥐 Bakery Menu
             </button>
             <button
+              onClick={() => handleNavClick('categories')}
+              className={`p-2.5 text-left rounded-xl transition-colors ${activeTab === 'categories' ? 'bg-[#2D241E] text-white font-semibold' : 'bg-white border border-[#E5E1D8] text-[#2D241E]'}`}
+            >
+              🏷️ Categories
+            </button>
+            <button
               onClick={() => handleNavClick('offers')}
               className={`p-2.5 text-left rounded-xl transition-colors ${activeTab === 'offers' ? 'bg-[#2D241E] text-white font-semibold' : 'bg-white border border-[#E5E1D8] text-[#2D241E]'}`}
             >
               ✨ Today's Specials
-            </button>
-            <button
-              onClick={() => handleNavClick('branches')}
-              className={`p-2.5 text-left rounded-xl transition-colors ${activeTab === 'branches' ? 'bg-[#2D241E] text-white font-semibold' : 'bg-white border border-[#E5E1D8] text-[#2D241E]'}`}
-            >
-              📍 3 Branches
-            </button>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenMyOrders();
-              }}
-              className="p-2.5 text-left rounded-xl bg-white border border-[#E5E1D8] text-[#2D241E]"
-            >
-              🧾 My Orders
             </button>
             <button
               onClick={() => handleNavClick('contact')}
@@ -380,6 +386,22 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAuth, onOpenMyOrders, onOp
             >
               📞 Contact Us
             </button>
+
+            {/* Admin-only Orders link in mobile menu */}
+            {isAdminLoggedIn && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setActiveTab('admin');
+                }}
+                className="p-2.5 text-left rounded-xl bg-[#FAF7F2] border border-[#D4A373] text-[#2D241E] font-semibold flex items-center justify-between col-span-2 sm:col-span-1"
+              >
+                <span>🧾 Orders ({orders.length})</span>
+                <span className="text-[10px] bg-[#2D241E] text-white px-2 py-0.5 rounded-full font-mono font-bold">
+                  Admin
+                </span>
+              </button>
+            )}
           </div>
           <div className="pt-2 border-t border-[#E5E1D8]">
             <button
